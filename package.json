@@ -1,0 +1,27 @@
+{
+  "name": "@smaiill/sqltype",
+  "version": "0.0.1",
+  "description": "TypeScript SQL querys typesafe.",
+  "private": false,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smaiill/trin.git"
+  },
+  "keywords": [
+    "sql",
+    "typescript",
+    "typesafe",
+    "pgsql",
+    "mysql"
+  ],
+  "author": "smaiill",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "type:check": "tsc --noEmit"
+  }
+}
