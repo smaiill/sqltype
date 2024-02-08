@@ -1,3 +1,4 @@
+import { Includes } from './utils'
 import { Functions } from './variables'
 
 type JoinSelection = {
@@ -124,13 +125,27 @@ type ValidKeyReturn = {
   column: string
   func?: string
 }
+
+type GetCorrectValueForFunction<
+  R extends ValidKeyReturn,
+  TableName extends keyof TS,
+  TS extends Tables,
+> = Includes<Functions[keyof Functions & R['func']]['types'], '*'> extends true
+  ? Functions[keyof Functions & R['func']]['returns']
+  : Includes<
+      Functions[keyof Functions & R['func']]['types'],
+      TS[TableName][R['column']]
+    > extends true
+  ? Functions[keyof Functions & R['func']]['returns']
+  : never
+
 type CorrectValueOfKey<
   R extends ValidKeyReturn,
   TableName extends keyof TS,
   TS extends Tables,
   JS extends JoinSelection[],
 > = R['func'] extends string
-  ? Functions[keyof Functions & R['func']]
+  ? GetCorrectValueForFunction<R, TableName, TS>
   : R['table'] extends string
   ? R['table'] extends TableName
     ? TS[R['table']][R['column']]

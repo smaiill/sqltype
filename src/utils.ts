@@ -9,3 +9,12 @@ export type ExpectKeysEqual<A1, A2> = keyof A1 extends keyof A2
     ? true
     : false
   : false
+
+export type Includes<A extends any[], K extends any> = A extends [
+  ...infer Rest,
+  infer CK,
+]
+  ? CK extends K
+    ? true
+    : Includes<Rest, K>
+  : false

@@ -8,13 +8,13 @@ import {
 } from './lib'
 import { ExpectKeysEqual, ExpectEqual } from './utils'
 
-type UsersTable = {
+export type UsersTable = {
   name: string
-  age: 19
+  age: number
   data: 'smail'
 }
 
-type DepartmentsTable = {
+export type DepartmentsTable = {
   department_id: '1'
   name: string
 }
@@ -71,25 +71,35 @@ const A13: ExpectEqual<
 
 const A14: ExpectEqual<
   QueryLocal<'SELECT name, age, data as user_data FROM users'>,
-  { name: string; age: 19; user_data: 'smail' }
+  { name: string; age: number; user_data: 'smail' }
 > = true
+
 const A15: ExpectEqual<
   QueryLocal<'   SELECT name    ,       age AS userAge , data  FROM users'>,
-  { name: string; userAge: 19; data: 'smail' }
+  { name: string; userAge: number; data: 'smail' }
 > = true
+
 const A16: ExpectEqual<
   QueryLocal<'SELECT users.name  FROM users'>,
   { name: string }
 > = true
+
 const A17: ExpectEqual<
   QueryLocal<'   SELECT     * FROM    users '>,
-  { name: string; age: 19; data: 'smail' }
+  { name: string; age: number; data: 'smail' }
 > = true
+
 const A18: ExpectEqual<
   QueryLocal<'   SELECT     data,users.name as UserName, departments.department_id as dpId FROM     users LEFT JOIN departments ON users.id = departments.id'>,
   { UserName: string; dpId: '1'; data: 'smail' }
 > = true
+
 const A19: ExpectEqual<
   QueryLocal<'   SELECT    AVG(departments.department_id)  FROM     departments'>,
-  { department_id: number }
+  { department_id: never }
+> = true
+
+const A20: ExpectEqual<
+  QueryLocal<'   SELECT    COUNT(departments.department_id), name as dpName  FROM     departments'>,
+  { department_id: number; dpName: string }
 > = true
